@@ -38,7 +38,9 @@ public class BusquedaRepositoryImpl implements BusquedaRepository {
                 .registerStoredProcedureParameter(6, String.class, ParameterMode.IN)
                 .setParameter(6, consultaEstadoInDto.getReferenceId())
                 .registerStoredProcedureParameter(7, String.class, ParameterMode.IN)
-                .setParameter(7, consultaEstadoInDto.getCurrencyCode());
+                .setParameter(7, consultaEstadoInDto.getCurrencyCode())
+                .registerStoredProcedureParameter(8, String.class, ParameterMode.IN)
+                .setParameter(8, consultaEstadoInDto.getPayerName());
 
         spq.execute();
         BigInteger count = (BigInteger) spq.getResultList().get(0);

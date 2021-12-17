@@ -118,10 +118,6 @@ public class BusquedaServiceImpl implements BusquedaService {
             throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
                     ErrorEnum.REQUIRED_VALUE.getReason() + "orderId");
         }
-        if (!StringUtils.hasText(consultaEstadoInDto.getPayerName())) {
-            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "payerName");
-        }
         if (!(consultaEstadoInDto.getAmount().compareTo(BigDecimal.ZERO) > 0)) {
             throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
                     ErrorEnum.REQUIRED_VALUE.getReason() + "amount");
