@@ -26,6 +26,11 @@ public class BusquedaController {
     public ConsultaEstadoOutDto consultaEstado(@RequestBody ConsultaEstadoInDto consutaEstadoInDto) throws IOException {
         LOGGER.debug("Procesando POST para /consultaEstado...");
         LOGGER.debug("Parameters = " + consutaEstadoInDto);
-        return busquedaService.consultaEstado(consutaEstadoInDto);
+        try {
+            return busquedaService.consultaEstado(consutaEstadoInDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -8,6 +8,6 @@ import java.net.MalformedURLException;
 
 public interface BusquedaService {
 
-    ConsultaEstadoOutDto consultaEstado(ConsultaEstadoInDto consutaEstadoInDto) throws IOException;
+    ConsultaEstadoOutDto consultaEstado(ConsultaEstadoInDto consutaEstadoInDto) throws IOException, Exception;
 
 }

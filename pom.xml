@@ -14,9 +14,6 @@
     <packaging>jar</packaging>
     <name>maintenancetrxbus</name>
     <description>REST API MAINTENANCE</description>
-    <properties>
-        <java.version>11</java.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
