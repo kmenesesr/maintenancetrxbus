@@ -6,7 +6,7 @@ import com.mycompany.maintenancetrxbus.rest.dto.out.ConsultaEstadoOutDto;
 
 public interface BusquedaRepository {
 
-    ConsultaEstado consultaEstado(ConsultaEstadoInDto consultaEstadoInDto);
+    boolean existsConsultaEstado(ConsultaEstadoInDto consultaEstadoInDto);
 
 
 }

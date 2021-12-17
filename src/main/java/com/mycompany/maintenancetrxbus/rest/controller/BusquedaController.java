@@ -23,14 +23,13 @@ public class BusquedaController {
     private BusquedaService busquedaService;
 
     @PostMapping(value = "/consultaEstado")
-    public ConsultaEstadoOutDto consultaEstado(@RequestBody ConsultaEstadoInDto consutaEstadoInDto) throws IOException {
+    public ConsultaEstadoOutDto consultaEstado(@RequestBody ConsultaEstadoInDto consutaEstadoInDto) {
         LOGGER.debug("Procesando POST para /consultaEstado...");
         LOGGER.debug("Parameters = " + consutaEstadoInDto);
         try {
             return busquedaService.consultaEstado(consutaEstadoInDto);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return busquedaService.getCommonError("Ocurrió un error inesperado");
         }
     }
 }

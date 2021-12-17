@@ -6,7 +6,7 @@ import java.math.BigInteger;
 public class ConsultaEstadoInDto{
 
     private BigInteger transactionId;
-    private String orderId;
+    private BigInteger orderId;
     private String payerName;
     private BigDecimal amount;
     private BigInteger gatewayId;
@@ -16,11 +16,11 @@ public class ConsultaEstadoInDto{
     private String currencyCode;
 
 
-    public String getOrderId() {
+    public BigInteger getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(BigInteger orderId) {
         this.orderId = orderId;
     }
 

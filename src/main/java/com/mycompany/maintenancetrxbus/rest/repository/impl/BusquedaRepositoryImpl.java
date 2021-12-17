@@ -22,37 +22,30 @@ public class BusquedaRepositoryImpl implements BusquedaRepository {
 
 
     @Override
-    public ConsultaEstado consultaEstado(ConsultaEstadoInDto consultaEstadoInDto) {
-        ConsultaEstado result = new ConsultaEstado();
+    public boolean existsConsultaEstado(ConsultaEstadoInDto consultaEstadoInDto) {
 
-        String merchantid = null;
         StoredProcedureQuery spq = this.entityManager.createStoredProcedureQuery(SP_CONSULTAESTADO)
-                .registerStoredProcedureParameter(1, BigInteger.class, ParameterMode.INOUT)
+                .registerStoredProcedureParameter(1, BigInteger.class, ParameterMode.IN)
                 .setParameter(1, consultaEstadoInDto.getTransactionId())
-                .registerStoredProcedureParameter(2, String.class, ParameterMode.INOUT)
+                .registerStoredProcedureParameter(2, BigInteger.class, ParameterMode.IN)
                 .setParameter(2, consultaEstadoInDto.getOrderId())
-                .registerStoredProcedureParameter(3, BigDecimal.class, ParameterMode.INOUT)
+                .registerStoredProcedureParameter(3, BigDecimal.class, ParameterMode.IN)
                 .setParameter(3, consultaEstadoInDto.getAmount())
-                .registerStoredProcedureParameter(4, BigInteger.class, ParameterMode.INOUT)
+                .registerStoredProcedureParameter(4, BigInteger.class, ParameterMode.IN)
                 .setParameter(4, consultaEstadoInDto.getGatewayId())
-                .registerStoredProcedureParameter(5, String.class, ParameterMode.INOUT)
+                .registerStoredProcedureParameter(5, String.class, ParameterMode.IN)
                 .setParameter(5, consultaEstadoInDto.getGatewayName())
-                .registerStoredProcedureParameter(6, String.class, ParameterMode.INOUT)
+                .registerStoredProcedureParameter(6, String.class, ParameterMode.IN)
                 .setParameter(6, consultaEstadoInDto.getReferenceId())
-                .registerStoredProcedureParameter(7, String.class, ParameterMode.INOUT)
-                .setParameter(7, consultaEstadoInDto.getRequestDate())
-                .registerStoredProcedureParameter(8, String.class, ParameterMode.INOUT)
-                .setParameter(8, consultaEstadoInDto.getCurrencyCode())
-                .registerStoredProcedureParameter(9, String.class, ParameterMode.INOUT)
-                .setParameter(9, merchantid);
+                .registerStoredProcedureParameter(7, String.class, ParameterMode.IN)
+                .setParameter(7, consultaEstadoInDto.getCurrencyCode());
 
         spq.execute();
-
-        if (spq.hasMoreResults() == true) {
-            result.setMerchantId((BigInteger) spq.getOutputParameterValue(merchantid));
-            result.setTransaccionId(consultaEstadoInDto.getTransactionId());
+        BigInteger count = (BigInteger) spq.getResultList().get(0);
+        if (count != BigInteger.ZERO) {
+            return true;
         }
-        return result;
+        return false;
     }
 
 }

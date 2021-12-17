@@ -3,6 +3,7 @@ package com.mycompany.maintenancetrxbus.rest.service.impl;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mycompany.maintenancetrxbus.rest.dto.ConsultaEstado;
+import com.mycompany.maintenancetrxbus.rest.dto.constants.Util;
 import com.mycompany.maintenancetrxbus.rest.dto.in.ConsultaEstadoInDto;
 import com.mycompany.maintenancetrxbus.rest.dto.out.*;
 import com.mycompany.maintenancetrxbus.rest.enums.ErrorEnum;
@@ -27,21 +28,25 @@ public class BusquedaServiceImpl implements BusquedaService {
     private BusquedaRepository busquedaRepository;
 
     @Override
-    public ConsultaEstadoOutDto consultaEstado(ConsultaEstadoInDto consultaEstadoInDto) throws Exception {
-        validate(consultaEstadoInDto);
+    public ConsultaEstadoOutDto consultaEstado(ConsultaEstadoInDto consultaEstadoInDto)  {
+
         ConsultaEstadoOutDto consultaEstadoOutDto = new ConsultaEstadoOutDto();
-        ConsultaEstado resultSearch = busquedaRepository.consultaEstado(consultaEstadoInDto);
+        try {
+        validate(consultaEstadoInDto);
 
-        if (resultSearch.getMerchantId() != BigInteger.ZERO) {
-
-            consultaEstadoOutDto = getConsultaEstado(getAuthentication(), resultSearch.getMerchantId(), "", consultaEstadoInDto.getTransactionId());
-
+        if (busquedaRepository.existsConsultaEstado(consultaEstadoInDto) == true) {
+                consultaEstadoOutDto = getConsultaEstado(getAuthentication(), Util.merchantId, consultaEstadoInDto.getReferenceId(), consultaEstadoInDto.getTransactionId());
+        } else {
+           consultaEstadoOutDto= getCommonError("No se encontraron datos de la transacción en base de datos");
+        }
+        } catch (Exception e) {
+            consultaEstadoOutDto=getCommonError("No se ingresaron los parámetros requeridos");
         }
         return consultaEstadoOutDto;
 
     }
 
-    private ConsultaEstadoOutDto getConsultaEstado(String autentication, BigInteger merchantId, String referenceId, BigInteger transactionId) throws Exception {
+    private ConsultaEstadoOutDto getConsultaEstado(String autentication, int merchantId, String referenceId, BigInteger transactionId) throws Exception {
         ConsultaEstadoOutDto result = new ConsultaEstadoOutDto();
         String consultaEstado = "";
         String urlConsulta = "https://apisandbox.vnforappstest.com/api.authorization/v3/retrieve/transaction/" + merchantId + "/" + transactionId;
@@ -109,7 +114,7 @@ public class BusquedaServiceImpl implements BusquedaService {
             throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
                     ErrorEnum.REQUIRED_VALUE.getReason() + "transactionId");
         }
-        if (!StringUtils.hasText(consultaEstadoInDto.getOrderId())) {
+        if (!(consultaEstadoInDto.getOrderId().compareTo(BigInteger.ZERO) > 0)) {
             throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
                     ErrorEnum.REQUIRED_VALUE.getReason() + "orderId");
         }
@@ -142,6 +147,7 @@ public class BusquedaServiceImpl implements BusquedaService {
                     ErrorEnum.REQUIRED_VALUE.getReason() + "currencyCode");
         }
     }
+
 
 
 }
