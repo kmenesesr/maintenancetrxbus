@@ -143,8 +143,7 @@ public class BusquedaServiceImpl implements BusquedaService {
                         ErrorEnum.REQUIRED_VALUE.getReason() + "currencyCode");
             }
         }catch (Exception e){
-            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "Parámetro requerido no ingresado");
+            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(), "Parámetro requerido no ingresado");
         }
     }
 
