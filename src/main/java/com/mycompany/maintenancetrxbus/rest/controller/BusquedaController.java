@@ -26,10 +26,6 @@ public class BusquedaController {
     public ConsultaEstadoOutDto consultaEstado(@RequestBody ConsultaEstadoInDto consutaEstadoInDto) {
         LOGGER.debug("Procesando POST para /consultaEstado...");
         LOGGER.debug("Parameters = " + consutaEstadoInDto);
-        try {
-            return busquedaService.consultaEstado(consutaEstadoInDto);
-        } catch (Exception e) {
-            return busquedaService.getCommonError("Ocurrió un error inesperado");
-        }
+        return busquedaService.consultaEstado(consutaEstadoInDto);
     }
 }

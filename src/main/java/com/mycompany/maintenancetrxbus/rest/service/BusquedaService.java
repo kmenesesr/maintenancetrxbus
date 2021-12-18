@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 
 public interface BusquedaService {
 
-    ConsultaEstadoOutDto consultaEstado(ConsultaEstadoInDto consutaEstadoInDto) throws Exception;
+    ConsultaEstadoOutDto consultaEstado(ConsultaEstadoInDto consutaEstadoInDto);
 
     default ConsultaEstadoOutDto getCommonError(String error) {
         ConsultaEstadoOutDto consultaEstadoOutDto = new ConsultaEstadoOutDto();

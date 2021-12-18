@@ -30,9 +30,9 @@ public class BusquedaServiceImpl implements BusquedaService {
     @Override
     public ConsultaEstadoOutDto consultaEstado(ConsultaEstadoInDto consultaEstadoInDto)  {
 
-        ConsultaEstadoOutDto consultaEstadoOutDto = new ConsultaEstadoOutDto();
-        try {
+        ConsultaEstadoOutDto consultaEstadoOutDto;
         validate(consultaEstadoInDto);
+        try {
 
         if (busquedaRepository.existsConsultaEstado(consultaEstadoInDto) == true) {
                 consultaEstadoOutDto = getConsultaEstado(getAuthentication(), Util.merchantId, consultaEstadoInDto.getReferenceId(), consultaEstadoInDto.getTransactionId());
@@ -109,38 +109,42 @@ public class BusquedaServiceImpl implements BusquedaService {
     }
 
     private void validate(ConsultaEstadoInDto consultaEstadoInDto) {
-
-        if (!(consultaEstadoInDto.getTransactionId().compareTo(BigInteger.ZERO) > 0)) {
+        try {
+            if (!(consultaEstadoInDto.getTransactionId().compareTo(BigInteger.ZERO) > 0)) {
+                throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
+                        ErrorEnum.REQUIRED_VALUE.getReason() + "transactionId");
+            }
+            if (!(consultaEstadoInDto.getOrderId().compareTo(BigInteger.ZERO) > 0)) {
+                throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
+                        ErrorEnum.REQUIRED_VALUE.getReason() + "orderId");
+            }
+            if (!(consultaEstadoInDto.getAmount().compareTo(BigDecimal.ZERO) > 0)) {
+                throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
+                        ErrorEnum.REQUIRED_VALUE.getReason() + "amount");
+            }
+            if (!(consultaEstadoInDto.getGatewayId().compareTo(BigInteger.ZERO) > 0)) {
+                throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
+                        ErrorEnum.REQUIRED_VALUE.getReason() + "gatewayId");
+            }
+            if (!StringUtils.hasText(consultaEstadoInDto.getGatewayName())) {
+                throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
+                        ErrorEnum.REQUIRED_VALUE.getReason() + "gatewayName");
+            }
+            if (!StringUtils.hasText(consultaEstadoInDto.getReferenceId())) {
+                throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
+                        ErrorEnum.REQUIRED_VALUE.getReason() + "referenceId");
+            }
+            if (!StringUtils.hasText(consultaEstadoInDto.getRequestDate())) {
+                throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
+                        ErrorEnum.REQUIRED_VALUE.getReason() + "requestDate");
+            }
+            if (!StringUtils.hasText(consultaEstadoInDto.getCurrencyCode())) {
+                throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
+                        ErrorEnum.REQUIRED_VALUE.getReason() + "currencyCode");
+            }
+        }catch (Exception e){
             throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "transactionId");
-        }
-        if (!(consultaEstadoInDto.getOrderId().compareTo(BigInteger.ZERO) > 0)) {
-            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "orderId");
-        }
-        if (!(consultaEstadoInDto.getAmount().compareTo(BigDecimal.ZERO) > 0)) {
-            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "amount");
-        }
-        if (!(consultaEstadoInDto.getGatewayId().compareTo(BigInteger.ZERO) > 0)) {
-            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "gatewayId");
-        }
-        if (!StringUtils.hasText(consultaEstadoInDto.getGatewayName())) {
-            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "gatewayName");
-        }
-        if (!StringUtils.hasText(consultaEstadoInDto.getReferenceId())) {
-            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "referenceId");
-        }
-        if (!StringUtils.hasText(consultaEstadoInDto.getRequestDate())) {
-            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "requestDate");
-        }
-        if (!StringUtils.hasText(consultaEstadoInDto.getCurrencyCode())) {
-            throw new BusinessException(ErrorEnum.REQUIRED_VALUE.getValue(),
-                    ErrorEnum.REQUIRED_VALUE.getReason() + "currencyCode");
+                    ErrorEnum.REQUIRED_VALUE.getReason() + "Parámetro requerido no ingresado");
         }
     }
 
