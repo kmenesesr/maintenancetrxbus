@@ -67,7 +67,7 @@
     </dependencies>
 
     <build>
-        <finalName>tutorial-rest</finalName>
+        <finalName>maintenancetrxbus-rest</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
